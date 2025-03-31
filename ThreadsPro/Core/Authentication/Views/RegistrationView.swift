@@ -19,12 +19,15 @@ struct RegistrationView: View {
             Image("threads_logo_black").resizable().scaledToFit().frame(width: 120,height: 120).padding()
             VStack {
                 TextField("Enter your email", text: $vm.email)
+                    .autocapitalization(.none)
                     .modifier(ThreadsTextFieldViewModifier())
                 SecureField("Enter your password", text: $vm.password)
+                    .autocapitalization(.none)
                     .modifier(ThreadsTextFieldViewModifier())
                 TextField("Enter your full name", text: $vm.fullName)
                     .modifier(ThreadsTextFieldViewModifier())
                 TextField("Enter your user name", text: $vm.userName)
+                    .autocapitalization(.none)
                     .modifier(ThreadsTextFieldViewModifier())
             }
             Button {
