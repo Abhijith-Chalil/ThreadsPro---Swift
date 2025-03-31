@@ -9,7 +9,25 @@ import SwiftUI
 
 struct UserCell: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack {
+            CircularProfileImgeView()
+            VStackLayout(alignment: .leading) {
+                Text("Abhijith Chalil")
+                    .fontWeight(.semibold)
+                
+                Text("Mobile App Developer")
+            }
+            .font(.footnote)
+            Spacer()
+            Text("Follow")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .frame(width: 100, height: 32)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color(.systemGray4), lineWidth: 1)
+                }
+        }
     }
 }
 

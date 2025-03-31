@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ExploreView: View {
+struct ActivityView: View {
     var body: some View {
-        Text("Hello, Explore!")
+        Text("Hello, Activity!")
     }
 }
 
