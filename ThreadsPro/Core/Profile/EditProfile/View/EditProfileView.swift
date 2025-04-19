@@ -6,11 +6,17 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditProfileView: View {
+    let user: UserModel
     @State private var bio = ""
     @State private var link = ""
     @State private var isPrivateProfile = false
+    @StateObject private var vm = EditProfileViewModel()
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -21,11 +27,22 @@ struct EditProfileView: View {
                         VStack(alignment: .leading) {
                             Text("Name")
                                 .fontWeight(.semibold)
-                            Text("Abhijith Chalil")
+                            Text(user.fullName)
                         }
                         
                         Spacer()
-                        CircularProfileImgeView()
+                        PhotosPicker(selection: $vm.selectedItem) {
+                            if let image = vm.profileImage {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 40, height: 40)
+                                    .clipShape(Circle())
+                            } else {
+                                CircularProfileImgeView(user: user, size: .small)
+                            }
+                        }
+                        
                     }
                     Divider()
                     VStack(alignment: .leading) {
@@ -60,14 +77,17 @@ struct EditProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
-                        
+                        dismiss()
                     }
                     .font(.subheadline)
                     .foregroundColor(.black)
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") {
-                        
+                        Task {
+                            try await vm.updateUserData()
+                            dismiss()
+                        }
                     }
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -79,5 +99,5 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    EditProfileView()
+    EditProfileView(user: PreviewData.user)
 }

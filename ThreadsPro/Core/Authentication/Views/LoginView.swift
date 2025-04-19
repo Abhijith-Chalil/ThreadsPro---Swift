@@ -7,9 +7,17 @@
 
 import SwiftUI
 
+enum LoginFocus: Int, Hashable {
+    case email
+    case password
+}
+
 struct LoginView: View {
     
     @StateObject private var vm = LoginViewModel()
+    
+    @FocusState private var focusedField: LoginFocus?
+    
     
     var body: some View {
         NavigationStack {
@@ -19,8 +27,10 @@ struct LoginView: View {
                 VStack {
                     TextField("Enter your email", text: $vm.email)
                         .autocapitalization(.none)
+                        .focused($focusedField, equals: .email)
                         .modifier(ThreadsTextFieldViewModifier())
                     SecureField("Enter your password", text: $vm.password)
+                        .focused($focusedField, equals: .password)
                         .modifier(ThreadsTextFieldViewModifier())
                 }
                 NavigationLink {
